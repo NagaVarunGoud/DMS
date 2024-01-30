@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dust Monitoring System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=9">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h2 style="color: #001F3F;">Serial Data:</h2>
+                <b><i><span id="dustDensity" class="text-info"></span></i></b>
+                <a href="{{ url_for('table') }}" class="btn btn-info btn-block" target="_blank">View Dust Density Table</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        const socket1 = io.connect('http://' + document.domain + ':' + location.port);
+      
+        socket1.on('send_notification', function(data) {
+         
+          alert(data.message);
+        });
+      
+    
+    </script>
+    <script>
+        const socket = io.connect('http://127.0.0.1:5000');
+
+        socket.on('serial_data', function (data) {
+            const dustDensity = document.getElementById('dustDensity');
+            dustDensity.textContent = ` ${data.data}`;
+        });
+    </script>
+    <b><i>
+    <div1 style="color: rgba(0, 0, 0, 0.5);">SAAV</div1>
+    </i></b>
+</body>
+</html>
+
+
